@@ -1,11 +1,13 @@
 import Button from "@/components/Button";
 import ImageViewer from "@/components/ImageViewer";
 import * as ImagePicker from 'expo-image-picker';
+import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 const PlaceholderImage = require('../../assets/images/background-image.png');
 
 export default function Index() {
+  const [selectedImg, setSelectedImg] = useState<string | undefined>(undefined);
   const pickImageAsync = async () => {
     // launchImageLibraryAsync：デバイスの画像ライブラリを開くメソッド
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -17,7 +19,7 @@ export default function Index() {
     });
     // 画像を選択できた時
     if (!result.canceled) {
-      console.log(result);
+      setSelectedImg(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
     }
@@ -25,7 +27,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer imgSource={PlaceholderImage} />
+        <ImageViewer imgSource={PlaceholderImage} selectedImg={selectedImg} />
       </View>
       <View style={styles.footerContainer}>
         {/* ボタンを押すとlaunchImageLibraryAsync関数を実行して画像選択する。 */}
