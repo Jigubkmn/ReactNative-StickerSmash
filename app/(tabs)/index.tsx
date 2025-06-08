@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import CircleButton from "@/components/CircleButton";
 import EmojiList from "@/components/EmojiList";
 import EmojiPicker from "@/components/EmojiPicker";
+import EmojiSticker from "@/components/EmojiSticker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
 import * as ImagePicker from 'expo-image-picker';
@@ -17,6 +18,9 @@ export default function Index() {
   // 絵文字表示のモーダル表示/非表示
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [pickedEmoji, setPickedEmoji] = useState<ImageSourcePropType | undefined>(undefined);
+
+
+
   const pickImageAsync = async () => {
     // launchImageLibraryAsync：デバイスの画像ライブラリを開くメソッド
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,6 +59,7 @@ export default function Index() {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer imgSource={PlaceholderImage} selectedImg={selectedImg} />
+        {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
       </View>
       {/* 画像を選択したらモーダルを表示させる */}
       {showAppOptions ? (
